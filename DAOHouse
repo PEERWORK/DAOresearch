@@ -13,3 +13,148 @@ The contracts write directly to the blockchain, with subgraphs making the data e
 We have published the packages in our SDK to NPM. These include the Common Utilities helpers used throughout the different libraries and the Contract Utilities for making function calls and writing data to the contracts. Querying is simplified with the DAO Data library wrapping the subgraphs. Additionally, we have included our component library in the UI package and added some slick builders for common features to help you build DAO apps faster.
 
 These tools are our gift to the Ethereum ecosystem. DAOs are hard. We have spent years meditating, building, failing and iterating on the process and tools for slaying Moloch(opens in a new tab). As a community we can become stronger and encourage you to contribute to this project. Please report bugs, request features and provide feedback to help improve this DAO Toolbox. Everything here is open-source. The software development kit and decentralized infrastructure is in the daohaus-monorepo(opens in a new tab) and the documentation is in the sdk-docs(opens in a new tab) repo on GitHub.
+
+
+## What the devil are Moloch DAOs, and why should you care?
+
+https://daohaus.mirror.xyz/U_JQtheSzdpRFqQwf9Ow3LgLNG0WMZ6ibAyrjWDu_fc
+
+Hundreds of DAOs use the Moloch DAO framework today, to great effect. But if you’re not familiar with how Moloch DAOs actually work, you’re not alone.
+
+Despite being one of the original DAO frameworks, I’ve noticed that a lot of people in the DAO and web3 space today aren’t aware of what’s possible with Moloch DAOs.
+
+The truth is that Moloch DAOs are amazing tools for communities to level up their coordination. As a core contributor to DAOhaus – a platform to create and participate in purpose-driven community DAOs  – I have seen Moloch DAOs lift up community after community and individual after individual.
+
+This article is my attempt to share that appreciation for Moloch DAOs with all of you – the DAO-curious, DAO contributors, operators, and leaders.
+
+It is organized into two sections: (1) Moloch DAO basics and (2) Moloch DAO properties you should know. In a follow-up article, I’ll build on these basics to describe DAO structures and governance patterns that are made possible by Moloch DAOs.
+
+## 1. Moloch DAO Basics
+Core features of a Moloch DAO
+Core features of a Moloch DAO
+Membership and Governance Power
+In a Moloch DAO, membership is permissioned and governance power is non-transferable. The only way to become a member is with the DAO’s approval (see the DAO Actions section).
+
+Governance power in Moloch DAOs takes two forms:
+
+Voting rights – how much your voice matters in whether proposals pass or fail (see the DAO Actions section)
+Economic stake, aka exit rights or “ragequit” – a direct claim on a proportion of the assets in the DAO treasury (see Shared DAO Resources)
+Governance power is represented by shares, of which there are two types. Full shares represent both voting rights and economic stake, while loot shares represent only economic stake.
+
+Governance power in a Moloch DAO is represented by two types of membership
+Governance power in a Moloch DAO is represented by two types of membership
+Any address that has at least one share and/or loot is considered a member of the DAO. A single member can have multiple shares and/or loot.
+
+## Shared DAO Resources
+Like all DAOs, Moloch DAOs manage shared resources. Moloch DAOs control resources in two locations: the main treasury and any number of vaults.
+
+## Main Treasury
+A Moloch DAO’s treasury is its primary bank account. The most important property of the treasury is that all members can withdraw their share of assets from it by ragequitting their shares and/or loot (reminder: “ragequit” means to burn your shares and/or loot to claim a proportion of the assets in the treasury).
+
+Outside of ragequit, the only way to move tokens from the treasury is via a DAO proposal (see the DAO Actions section).
+
+Because assets need to be divisible in order to be ragequittable (it’s not possible, for example, to withdraw 5% of an NFT), the treasury can hold only ERC20 tokens.
+
+## Vaults
+To support ragequit rights, the treasury in a Moloch DAO is somewhat restricted. But Moloch DAOs can hold any type of asset and do a number of other things via vaults.
+
+Using a vault, a Moloch DAO can hold and manage any asset – ERC20 tokens, NFTs, native coins (e.g., ETH, MATIC, or xDAI, depending on the network). Assets held in vaults are not available for ragequit. Moving assets from the treasury to vault requires DAO approval (see DAO Actions section), which provides an opportunity for members to ragequit before the assets are moved outside of the reach of ragequit.
+
+Today, Moloch DAOs use Gnosis Safe smart contracts as vaults, which means they are secure and interoperable with many emerging DAO tools. Importantly, however, the Safes are fully controlled by the DAO and the DAO alone via helper smart contracts (middleware) called minions.
+
+Using minions, Moloch DAOs can also control non-economic resources, such as other smart contracts (see the DAO Actions section for more of what minions can do).
+
+There is no limit on the number of vaults a single Moloch DAO can have. Many DAOs use multiple vaults, using each to store funds earmarked for a different purpose.
+
+## DAO Actions
+Moloch DAOs don’t have any admins or trusted intermediaries. All actions they take are done via proposals, which execute directly against the treasury or vaults.
+
+The life cycle of a proposal in a Moloch DAO
+The life cycle of a proposal in a Moloch DAO
+Proposal Life Cycle
+All Moloch DAO proposals have the following phases:
+
+Submission – Anybody (even non-members) can submit a new proposal.
+Sponsorship – Submitted proposals must be sponsored by a member with shares in order to proceed to the next phase.
+Voting Period – DAO members can vote YES or NO with their shares. At the end, the votes are tallied. If the proposal has more YES than NO votes, it moves on to the next phase. If not, it fails.
+Grace Period – Any DAO members that did not vote YES can ragequit their shares and/or loot.
+Processing – After grace period, a successful proposal needs to be processed to be enacted.
+Execution – Proposals that manage resources in vaults require an extra step to execute their external logic.
+Moloch DAO proposals have no quorum requirement. Any proposal receiving more YES than NO votes will pass. This is only possible because members have ragequit rights, which protects them from the tyranny of the majority by allowing them to exit their fair share of the resources in the treasury before an unwanted proposal is executed.
+
+The trade-off is that proposals must proceed through the full voting period and grace period before they go into effect. However, minions can be configured with a quorum to allow early execution on proposals that manage resources in vaults if there are sufficient YES votes and no NO votes. In those cases, phase 6 occurs during or just after phase 3.
+
+Early execution via quorum changes the security properties of a DAO’s funds. If the stakes are high enough, many DAOs prefer to wait the full voting and grace period for greater security. An important component of that greater security is related to ragequit. Even with a minion proposal – where the assets in question cannot be withdrawn via ragequit – if enough members ragequit they can prevent the proposal from being executed even if it “passed”. This is a clear example of governance power that doesn’t involve voting.
+
+Types of Proposals
+Here are the most common types of Moloch DAO proposals.
+
+Membership – Request new shares or loot, optionally including a tribute of tokens to the DAO treasury.
+Funding – Request payout of funds from the treasury.
+Signaling – Ratify a message by having the DAO “sign” it on-chain.
+Minion – A proposal to execute arbitrary logic via a minion.
+Guildkick – Kick out a member (e.g., for bad behavior). This converts any shares they have into loot, revoking their voting rights without violating their property rights.
+Ragekick – Remove a guildkicked member altogether by forcing them to ragequit.
+Minion proposals are incredibly flexible and enable a Moloch DAO to do pretty much anything that can be done with smart contracts. For example, a minion can act as the owner of a smart contract protocol, enabling a Moloch DAO to serve as the governance mechanism controlling that protocol. Or a minion can interact with DeFi protocols, enabling a Moloch DAO to collectively provide liquidity, lend assets, or make swaps.
+
+2. Moloch DAO Properties You Should Know
+The previous section focused solely on the actual mechanisms that make up the Moloch DAO framework. This section examines the properties that emerge from that structure. If you’re primarily interested in learning why to use a Moloch DAO, this is the section for you.
+
+
+Moloch DAOs have Strong Security Properties
+Moloch DAOs are highly secure governance structures. Ragequit creates strong property rights for DAO members and protects minority members from the tyranny of the majority. Even if a majority voting bloc rammed through a malicious proposal, other members could ragequit before the proposal took effect and keep all their funds. That threat alone prevents a lot of bad behavior.
+
+Moloch DAOs also have a degree of built-in Sybil resistance. Since membership is permissioned, existing members can screen prospective members to ensure they are unique persons.
+
+In a Moloch DAO, membership is not defined by a financial asset. This protects the DAO from plutocracy and other security risks inherent to coin-voting DAOs.
+
+One of the trade-offs of such strong security is speed. Moloch DAO proposals – which must go through both voting and grace periods – move slower than multisig transactions, which can be executed as soon as enough signers have confirmed. Of course, multisigs don’t have the strong member protections that Moloch DAOs have. And, a Moloch DAO can mimic the speed of a multisig by allocating a portion of its treasury to a minion vault configured for early execution.
+
+Moloch DAOs are highly secure
+Moloch DAOs are highly secure
+Security Properties of Moloch DAOs
+Strong member property rights
+Strong minority member protections
+Sybil resistance
+Membership is defined non-financially
+Supports both slower / more secure as well as faster / less secure collective action models
+Moloch DAOs Promote High Quality Coordination
+Many of the Moloch DAO mechanisms create prime conditions for high quality coordination.
+
+Since a quorum is not necessary, Moloch DAO proposals are optimistic in nature. Not voting on a proposal is effectively the same as voting yes, which facilitates a consent-based decision-making approach preferred by self-managing organizations.
+
+And unlike other DAO governance systems that rely on many people voting on nearly every proposal, Moloch DAOs rarely have problems with voter fatigue.
+
+These properties, together with the fact that members in a Moloch DAO can have different voting weights, Moloch DAOs can scale trustless coordination to approximately ten times as many members as a multisig. Multisigs become infeasible beyond 15 or so signers, and the largest Moloch DAOs tend to be around 150 members.
+
+The governance mechanisms in the Moloch DAO framework push most decisions to the social layer. This makes Moloch DAOs highly flexible, allowing them to change policies – such as new member qualifications or requirements for receiving funding from the treasury – without having to make changes to smart contracts. The ability to use shares (voting and economic stake) and loot (economic stake only) together in various ways also contributes to the flexibility.
+
+Another way to think about this is that the nature of the Moloch DAO framework induces DAO members to coordinate explicitly with one another. Such humanistic coordination – as opposed to mechanistic coordination – creates optimal conditions for serendipitous activity and emergent value creation.
+
+Moloch DAOs foster iterative alignment. During the grace period after every passed proposal, members have the option to ragequit. Having made an explicit choice to stay, members who don’t ragequit are aligning themselves further with the DAO’s values and/or purpose. Meanwhile, if any members do ragequit, the remaining set members will by definition be more aligned than the previous set. Moloch DAOs tend to become more cohesive and aligned over time, even as members maintain strong individual rights.
+
+Coordination Properties of Moloch DAOs
+Consent-based decision-making
+Relatively low voter fatigue
+Scales trustless coordination to ~10x more members than a multisig
+Highly flexible and adaptive to community needs
+Creates conditions for serendipitous value creation
+Iterative alignment
+Moloch DAOs are beautiful 🤩
+Moloch DAOs are beautiful 🤩
+Moloch DAOs are Beautiful
+Thanks to the combination of permissioned membership, member protections via ragequit rights, and DAO protections via guildkick (the ability for the DAO to remove a mis-aligned member), a Moloch DAO is a safe space. Members have space to take risks, to try new things, to be vulnerable, and to experiment with each other. These are exactly the conditions and activities that build trust among members, even those that were complete strangers before joining the DAO.
+
+Lastly, Moloch DAOs are a unique combination of individualism and collectivism. Individual members maintain full custody over their funds, even while they make them available in the treasury for the DAO to deploy collectively. This superposition of private property and shared property exists virtually nowhere else; only Moloch DAOs – because of ragequit – make it possible in such clear terms.
+
+Uniquely Beautiful Properties of Moloch DAOs
+Inside the DAO is a relatively safe space
+Builds trust among members
+Superposition of private property and shared property
+Superposition of individualism and collectivism
+What’s Next?
+Welcome to the wonderful world of Moloch DAOs!
+
+Keep an eye out for a follow-up article where we’ll dig into some common – and not-so-common! – ways to use Moloch DAOs to unlock some really cool opportunities.
+
+In the meantime, if you’re interested in exploring further, the DAOhaus community has been building and experimenting with Moloch DAOs for over three years. We would love to share our experiences with you.
